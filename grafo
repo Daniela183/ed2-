@@ -1,0 +1,58 @@
+class Graph(): 
+    def __init__(self, nodes):
+     
+        self.distA = [0 for i in range(nodes)]
+        self.vistS = [0 for i in range(nodes)]
+        self.V = nodes
+        self.INF = 1000000
+        self.graph = [[0 for column in range(nodes)]  
+                    for row in range(nodes)]
+   
+    def dijkstra(self, srcNode):
+        for i in range(self.V):
+          
+          self.distA[i] = self.INF
+          self.vistS[i] = False
+     
+        self.distA[srcNode] = 0
+        for i in range(self.V): 
+   
+            u = self.minDistance(self.distA, self.vistS) 
+  
+            self.vistS[u] = True
+  
+            for v in range(self.V): 
+                if self.graph[u][v] > 0 and self.vistS[v] == False and self.distA[v] > self.distA[u] + self.graph[u][v]: 
+                        self.distA[v] = self.distA[u] + self.graph[u][v] 
+  
+        self.printSolution(self.distA)
+    
+    def minDistance(self, distA, vistS): 
+  
+        min = self.INF
+  
+        for v in range(self.V): 
+            if distA[v] < min and vistS[v] == False: 
+                min = distA[v] 
+                min_index = v 
+  
+        return min_index
+
+    def printSolution(self, distA): 
+        print ("Nó \tDistância de 0")
+        for i in range(self.V): 
+            print (i, "\t", distA[i])
+ourGraph = Graph(7) 
+
+
+#                       0  1  2  3  4  5   6
+ourGraph.graph = [     [0, 1, 3, 0, 0, 0,  0],   # 0
+                       [3, 0, 0, 4, 0, 0,  0],   # 1
+                       [6, 7, 0, 9, 0, 0,  0],   # 2
+                       [0, 0, 8, 0, 17,6,  0],  # 3
+                       [0, 0, 0, 10, 0,2,  6],  # 4
+                       [0, 0, 0, 30, 6,0,  7],  # 5
+                       [0, 0, 0, 0, 5, 3,  0],   # 6
+        ]; 
+  
+ourGraph.dijkstra(0)
